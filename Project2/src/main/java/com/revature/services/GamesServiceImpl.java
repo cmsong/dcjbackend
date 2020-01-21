@@ -52,7 +52,7 @@ public class GamesServiceImpl implements GamesService{
 	@Override
 	public List<Games> getAllGames() {
 		
-		return null;
+		return (List<Games>) gr.findAll();
 	}
 	
 	

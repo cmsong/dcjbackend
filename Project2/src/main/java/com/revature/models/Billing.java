@@ -25,6 +25,10 @@ public class Billing {
 		this.membership_date = membership_date;
 	}
 
+	public Billing(String membership_date) {
+		this.membership_date = membership_date;
+	}
+
 	public int getB_id() {
 		return b_id;
 	}

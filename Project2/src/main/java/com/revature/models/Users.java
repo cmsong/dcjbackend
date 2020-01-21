@@ -78,6 +78,19 @@ public class Users {
 		this.email = email;
 	}
 
+	public Users(String username, String password, int isPremium, int isAdmin, String fname, String lname,
+			String email) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.isPremium = isPremium;
+		this.isAdmin = isAdmin;
+		this.fname = fname;
+		this.lname = lname;
+		this.email = email;
+	}
+	
+	
 	public String getUsername() {
 		return username;
 	}

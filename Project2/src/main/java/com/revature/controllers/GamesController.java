@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.models.Games;
+import com.revature.models.Genre;
 import com.revature.services.GamesService;
+import com.revature.services.GenreService;
 
 @RestController
 public class GamesController {
 
 	@Autowired
 	GamesService gs;
+	
+	@Autowired
+	GenreService ges;
 	@CrossOrigin(origins="*")
 	@PostMapping(value = "/games",consumes="application/json")
 	public Games addGame(@RequestBody Games game) {
@@ -50,5 +55,15 @@ public class GamesController {
 	@PutMapping(value="/games", consumes="application/json")
 	public Games updateGame(@RequestBody Games game) {
 		return gs.updateGame(game);
+	}
+	
+	@CrossOrigin(origins="*")
+	@PutMapping(value="/games/genre", consumes="application/json")
+	public Games updateGameGenre(@RequestParam int g_id, @RequestParam int ge_id) {
+		Games g = gs.getGameById(g_id);
+		List<Genre> lg = g.getGenres();
+		lg.add(ges.getGenreById(ge_id));
+		g.setGenres(lg);
+		return gs.updateGame(g);
 	}
 }

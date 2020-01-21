@@ -45,4 +45,10 @@ public class UsersServiceImpl implements UsersService {
 		}
 	}
 
+	@Override
+	public Users getUserByUsernameAndPassword(String username, String password) {
+		
+		return ur.findByUsernameAndPassword(username, password);
+	}
+
 }

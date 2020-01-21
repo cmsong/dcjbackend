@@ -10,5 +10,6 @@ import com.revature.models.Users;
 public interface UsersRepository extends CrudRepository<Users,Integer>{
 	
 	List<Users> findByUsername(String username);
+	Users findByUsernameAndPassword(String username, String password);
 
 }
