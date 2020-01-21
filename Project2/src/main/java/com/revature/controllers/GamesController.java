@@ -66,4 +66,13 @@ public class GamesController {
 		g.setGenres(lg);
 		return gs.updateGame(g);
 	}
+	
+	 @DeleteMapping(value="/games/genre", consumes="application/json")
+	    public Games deleteGameGenre(@RequestParam int g_id, @RequestParam int ge_id) {
+	        Games g = gs.getGameById(g_id);
+	        List<Genre> lg = g.getGenres();
+	        lg.remove(ges.getGenreById(ge_id));
+	        g.setGenres(lg);
+	        return gs.updateGame(g);
+	    }
 }
