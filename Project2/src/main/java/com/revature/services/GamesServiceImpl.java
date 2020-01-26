@@ -33,9 +33,9 @@ public class GamesServiceImpl implements GamesService{
 	}
 
 	@Override
-	public List<Games> findByTitle(Games game) {
+	public List<Games> findByTitle(String title) {
 		
-		return gr.findByTitle(game.getTitle());
+		return gr.findByTitle(title);
 	}
 
 	@Override

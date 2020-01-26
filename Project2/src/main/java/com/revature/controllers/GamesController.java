@@ -43,8 +43,9 @@ public class GamesController {
 	}
 	@CrossOrigin(origins="*")
 	@GetMapping(value="/games/search")
-	public List<Games> findGamesByTitle(@RequestParam Games game){
-		return gs.findByTitle(game);
+	public List<Games> findGamesByTitle(@RequestParam String title){
+		System.out.println("Findgamesbytitle: " + title);
+		return gs.findByTitle(title);
 	}
 	@CrossOrigin(origins="*")
 	@DeleteMapping(value="/games/{id}")

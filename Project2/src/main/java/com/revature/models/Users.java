@@ -60,7 +60,10 @@ public class Users {
 		this.email = email;
 		this.ug = ug;
 	}
-
+	public Users(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
 	public Users() {
 		super();
 	}

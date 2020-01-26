@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.models.Billing;
 import com.revature.models.Games;
 import com.revature.models.Users;
+import com.revature.models.Users_Games;
 import com.revature.services.BillingService;
 import com.revature.services.GamesService;
 import com.revature.services.UsersService;
@@ -30,6 +31,7 @@ public class UsersController {
 	
 	@Autowired
 	BillingService bs;
+	
 	@CrossOrigin(origins="*")
     @PostMapping(value="/users", consumes="application/json")
     public Users createUsers(@RequestBody Users users) {
@@ -53,25 +55,50 @@ public class UsersController {
 	}
 	
 	@CrossOrigin(origins="*")
-	@PutMapping(value="/users", consumes="application/json")
-	public Users updateUsers(@RequestBody Users change) {
-		return us.updateUsers(change);
-	}
+    @PutMapping(value="/users", consumes="application/json")
+    public Users updateUsers(@RequestBody Users change) {
+        return us.updateUsers(change);
+    }
+	
+//	@CrossOrigin(origins="*")
+//	@GetMapping(value="/users/{username}/{password}")
+//	public Users getUserByUsernameAndPassword(@PathVariable("username")String username,@PathVariable("password")String password) {
+//		return us.getUserByUsernameAndPassword(username, password);
+//	}
 	
 	@CrossOrigin(origins="*")
-	@GetMapping(value="/users/{username}/{password}")
-	public Users getUserByUsernameAndPassword(@PathVariable("username")String username,@PathVariable("password")String password) {
-		return us.getUserByUsernameAndPassword(username, password);
-	}
+    @PostMapping(value="/users/login", consumes="application/json")
+    public Users getUsersByUsernameAndPassword(@RequestBody Users users){
+        String username= users.getUsername();
+        String password= users.getPassword();
+        return us.getUserByUsernameAndPassword(username,password);
+    }
 	
 	@CrossOrigin(origins="*")
-	@PutMapping(value="/users/games", consumes="application/json")
-	public Users updateUsersGames(@RequestParam String username, @RequestParam int g_id) {
-		Users u = us.getUsersByUsername(username).get(0);
-		System.out.println(u);
-		List<Games> lg = us.getUsersByUsername(username).get(0).getUg();
-		lg.add(gs.getGameById(g_id));
-		u.setUg(lg);
-		return us.updateUsers(u);
-	}
+    @PutMapping(value="/users/games", consumes="application/json")
+    public Users updateUsersGames(@RequestBody Users_Games ug) {
+        System.out.println("got here successfully");
+        Users u = us.getUsersByUsername(ug.getUsername()).get(0);
+        System.out.println(u);
+        List<Games> lg = us.getUsersByUsername(ug.getUsername()).get(0).getUg();
+        lg.add(gs.getGameById(ug.getG_id()));
+        u.setUg(lg);
+        return us.updateUsers(u);
+    }
+	
+
+	@CrossOrigin(origins="*")
+    @PutMapping(value="/users/premium", consumes="application/json")
+    public Users updateUsersBilling(@RequestBody Users change) {
+        int month = java.time.LocalDate.now().getMonthValue();
+        int day = java.time.LocalDate.now().getDayOfMonth();
+        int year = java.time.LocalDate.now().getYear() + 1;
+        String membership = month + "_" + day + "_" + year;
+        change.getBilling().setMembership_date(membership);
+        int b_id = change.getBilling().getB_id();
+        Billing b = bs.getBillingById(b_id);
+        b.setMembership_date(membership);
+        bs.updateBilling(b);
+        return us.updateUsers(change);
+    }
 }
